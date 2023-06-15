@@ -249,7 +249,7 @@ class CourseWorkFactory:
 
     def generate_coursework(self, name):
         name = self._strip_name(name)
-        log(f"Generating coursework {name}...", self.bot)
+        log(f"Generating TZ {name}...", self.bot)
         cw = CourseWork(name, bot=self.bot)
         if os.path.exists(cw.file_name()):
             log("The file is already exist!", self.bot)

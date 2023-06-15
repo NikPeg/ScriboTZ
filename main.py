@@ -18,7 +18,7 @@ def start(message):
         users_works_count[message.from_user.id] = 0
         bot.send_message(ADMIN, f"User @{message.from_user.username} started a bot.")
     markup = types.InlineKeyboardMarkup()
-    btn1 = types.InlineKeyboardButton(text='Сгенерировать работу', callback_data='generate')
+    btn1 = types.InlineKeyboardButton(text='Сгенерировать ТЗ', callback_data='generate')
     btn2 = types.InlineKeyboardButton(text='Узнать о Scribo', callback_data='info')
     btn3 = types.InlineKeyboardButton(text='Связаться с командой', callback_data='connect')
     btn4 = types.InlineKeyboardButton(text='Отправить донат', url=DONATE_URL)
