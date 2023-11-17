@@ -25,11 +25,11 @@ class CourseWork:
     def __str__(self):
         return f"Курсовая работа {self.name}"
 
-    def save(self) -> bool:
+    def save(self, free=False) -> bool:
         log("Saving work...", self.bot)
         try:
-            with io.open(self.file_name(), mode="w", encoding="utf-8") as result_file:
-                result_file.write(self.text)
+            with io.open(self.file_name(free=free), mode="w", encoding="utf-8") as result_file:
+                result_file.write(self.text(free))
         except Exception as e:
             log(f"Exception while saving tex: {e}", self.bot)
             return False
@@ -61,20 +61,23 @@ class CourseWork:
             res += " ".join(words_list[words_count * 2 // 3:words_count]) + NEW_LINE
         return res
 
-    @property
-    def text(self):
+    def text(self, free=False):
         res = ""
         for i in range(1, 4):
             with io.open(f"TZtemplate{i}.tex", mode="r", encoding="utf-8") as template:
                 res += template.read()
             if i < 3:
                 res += self.upper_name
-
-        res += NEW_PAGE.join(self.chapters_text)
+        if free:
+            res += NEW_PAGE.join(self.chapters_text[:len(self.chapters_text) // 2])
+            with io.open(f"TZtemplateFREE.tex", mode="r", encoding="utf-8") as template:
+                res += template.read()
+        else:
+            res += NEW_PAGE.join(self.chapters_text)
         res += END_DOCUMENT
         return res
 
-    def file_name(self, type="tex"):
+    def file_name(self, type="tex", free=False):
         translit_name = translit(self.name, language_code='ru', reversed=True)
         splitted_name = translit_name.split()
         res = ""
@@ -86,6 +89,10 @@ class CourseWork:
         for c in res:
             if c in ascii_letters + digits + " \t\n":
                 ascii_res += c
+        if free:
+            ascii_res += " FREE"
+        else:
+            ascii_res += " FULL"
         return f"{ascii_res}.{type}"
 
     def delete(self, delete_tex: bool = True):

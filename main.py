@@ -192,7 +192,7 @@ def get_message(message):
                 bot.send_message(message.from_user.id, ATTEMPT_MESSAGE.format(i), reply_markup=markup)
                 cw = factory.generate_coursework(message.reply_to_message.text.split("\n")[1])
                 try:
-                    if cw.save():
+                    if cw.save(free=True):
                         send_work(cw, message.from_user.id, reply_chat_id)
                         remove_work(cw.name)
                         cw.delete()
@@ -209,16 +209,12 @@ def get_message(message):
             bot.send_message(message.from_user.id, WRONG_REPLY_MESSAGE, reply_markup=markup)
     elif message.from_user.id not in MODERATORS:
         users_works_count[message.from_user.id] = users_works_count.get(message.from_user.id, 0) + 1
-        remaining_works = FREE_WORKS_COUNT - users_works_count.get(message.from_user.id, 0)
-        if remaining_works >= 0:
-            bot.send_message(
-                message.from_user.id,
-                WORK_DOWNLOADED_MESSAGE,
-                parse_mode='Markdown',
-                reply_markup=markup,
-            )
-        else:
-            bot.send_message(message.from_user.id, WORK_DOWNLOADED_MESSAGE, parse_mode='Markdown')
+        bot.send_message(
+            message.from_user.id,
+            WORK_DOWNLOADED_MESSAGE,
+            parse_mode='Markdown',
+            reply_markup=markup,
+        )
         current_works.append((message.from_user.id, message.id, message.text))
         markup = types.InlineKeyboardMarkup()
         btn1 = types.InlineKeyboardButton(
@@ -239,7 +235,7 @@ def get_message(message):
             bot.send_message(ADMIN, ATTEMPT_MESSAGE.format(i))
             cw = factory.generate_coursework(message.text)
             try:
-                if cw.save():
+                if cw.save(free=True):
                     send_work(cw, ADMIN, message.from_user.id)
                     remove_work(message.text)
                     cw.delete()
