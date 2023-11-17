@@ -213,17 +213,12 @@ def get_message(message):
         if remaining_works >= 0:
             bot.send_message(
                 message.from_user.id,
-                WORK_DOWNLOADED_FREE_MESSAGE.format(
-                    remaining_works,
-                    "ое" if remaining_works == 1 else "ых",
-                    "й" if remaining_works == 0 else "е" if remaining_works == 1 else "я",
-                ),
+                WORK_DOWNLOADED_MESSAGE,
                 parse_mode='Markdown',
                 reply_markup=markup,
             )
         else:
-            bot.send_message(message.from_user.id, WORK_DOWNLOADED_MESSAGE.format(PRICE, DONATE_URL),
-                             parse_mode='Markdown')
+            bot.send_message(message.from_user.id, WORK_DOWNLOADED_MESSAGE, parse_mode='Markdown')
         current_works.append((message.from_user.id, message.id, message.text))
         markup = types.InlineKeyboardMarkup()
         btn1 = types.InlineKeyboardButton(
