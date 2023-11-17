@@ -234,10 +234,11 @@ class CourseWorkFactory:
         log("\n\n\nGenerating chapters\' text...", self.bot)
         for chapter in cw.chapters:
             log(f"\nGenerating chapter {chapter}...", self.bot)
-            if chapter in BIBLIOGRAPHIES:
-                chapter_text = self.gpt.ask(GENERATE_BIBLIOGRAPHY.format(cw.name))
-            else:
-                chapter_text = self.gpt.ask(GENERATE_CHAPTER.format(chapter, cw.name))
+            # if chapter in BIBLIOGRAPHIES:
+            #     chapter_text = self.gpt.ask(GENERATE_BIBLIOGRAPHY.format(cw.name))
+            # else:
+            #     chapter_text = self.gpt.ask(GENERATE_CHAPTER.format(chapter, cw.name))
+            chapter_text = chapter
             log(f"GPT's response: {chapter_text}", self.bot)
             chapter_text = self._validate_chapter(chapter_text, chapter)
             if chapter not in BIBLIOGRAPHIES:
