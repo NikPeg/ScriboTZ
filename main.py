@@ -159,12 +159,12 @@ def remove_work(work_name):
             break
 
 
-def send_work(cw: CourseWork, moderator: int, user: int) -> None:
+def send_work(cw: CourseWork, moderator: int, user: int, free: bool = False) -> None:
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton(text='Главное меню', callback_data='menu')
     markup.add(btn1)
-    bot.send_document(moderator, open(cw.file_name("pdf"), 'rb'))
-    bot.send_document(user, open(cw.file_name("pdf"), 'rb'))
+    bot.send_document(moderator, open(cw.file_name("pdf", free), 'rb'))
+    bot.send_document(user, open(cw.file_name("pdf", free), 'rb'))
     bot.send_message(moderator, READY_MESSAGE, reply_markup=markup)
     bot.send_message(user, READY_MESSAGE, reply_markup=markup)
 
@@ -193,7 +193,7 @@ def get_message(message):
                 cw = factory.generate_coursework(message.reply_to_message.text.split("\n")[1])
                 try:
                     if cw.save(free=True):
-                        send_work(cw, message.from_user.id, reply_chat_id)
+                        send_work(cw, message.from_user.id, reply_chat_id, free=True)
                         remove_work(cw.name)
                         cw.delete()
                         break
@@ -236,7 +236,7 @@ def get_message(message):
             cw = factory.generate_coursework(message.text)
             try:
                 if cw.save(free=True):
-                    send_work(cw, ADMIN, message.from_user.id)
+                    send_work(cw, ADMIN, message.from_user.id, free=True)
                     remove_work(message.text)
                     cw.delete()
                     break
