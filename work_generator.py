@@ -266,7 +266,7 @@ class CourseWorkFactory:
         name = self._strip_name(name)
         log(f"Generating TZ {name}...", self.bot)
         cw = CourseWork(name, bot=self.bot)
-        if os.path.exists(cw.file_name()):
+        if os.path.exists(cw.file_name(free=True)):
             log("The file is already exist!", self.bot)
             return cw
         self._generate_chapters(cw)
