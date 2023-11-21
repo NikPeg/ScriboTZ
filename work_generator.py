@@ -35,8 +35,8 @@ class CourseWork:
             return False
         try:
             log("Try to run pdflatex...", self.bot)
-            subprocess.run(["pdflatex", self.file_name()], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-            result = subprocess.run(["pdflatex", self.file_name()], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            subprocess.run(["pdflatex", self.file_name(free=free)], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            result = subprocess.run(["pdflatex", self.file_name(free=free)], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             log(result.stdout, bot=self.bot)
             log(result.stderr, bot=self.bot)
             return result.returncode == 0
