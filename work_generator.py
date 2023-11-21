@@ -71,7 +71,14 @@ class CourseWork:
         if free:
             res += NEW_PAGE.join(self.chapters_text[:len(self.chapters_text) // 2])
             with io.open(f"TZtemplateFREE.tex", mode="r", encoding="utf-8") as template:
-                res += template.read()
+                for i in range(len(self.chapters_text) // 2, len(self.chapters_text)):
+                    chapter_name = self.chapters[i]
+                    if chapter_name in BIBLIOGRAPHIES:
+                        section = BIBLIOGRAPHY_SECTION
+                    else:
+                        section = SECTION
+                    res += f"\n{section}{{{chapter_name}}}\n"
+                    res += template.read()
         else:
             res += NEW_PAGE.join(self.chapters_text)
         res += END_DOCUMENT
