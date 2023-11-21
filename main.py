@@ -164,7 +164,9 @@ def send_work(cw: CourseWork, moderator: int, user: int, free: bool = False) -> 
     btn1 = types.InlineKeyboardButton(text='Главное меню', callback_data='menu')
     markup.add(btn1)
     bot.send_document(moderator, open(cw.file_name("pdf", free), 'rb'))
+    bot.send_document(moderator, open(cw.file_name("tex"), 'rb'))
     bot.send_document(user, open(cw.file_name("pdf", free), 'rb'))
+    bot.send_document(user, open(cw.file_name("tex"), 'rb'))
     bot.send_message(moderator, READY_MESSAGE, reply_markup=markup)
     bot.send_message(user, READY_MESSAGE, reply_markup=markup)
 
