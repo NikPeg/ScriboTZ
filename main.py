@@ -194,8 +194,8 @@ def get_message(message):
                 bot.send_message(message.from_user.id, ATTEMPT_MESSAGE.format(i), reply_markup=markup)
                 cw = factory.generate_coursework(message.reply_to_message.text.split("\n")[1])
                 try:
-                    if cw.save(free=True):
-                        send_work(cw, message.from_user.id, reply_chat_id, free=True)
+                    if cw.save(free=False):
+                        send_work(cw, message.from_user.id, reply_chat_id, free=False)
                         remove_work(cw.name)
                         cw.delete()
                         break
